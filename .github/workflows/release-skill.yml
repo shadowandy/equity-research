@@ -1,0 +1,49 @@
+name: Release equity-research skill
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to create or update (e.g. v1.0.0)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    env:
+      SKILL: equity-research
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate skill
+        run: |
+          test -f "skills/$SKILL/SKILL.md"
+          grep -q "^name: $SKILL$" "skills/$SKILL/SKILL.md"
+
+      - name: Build zip
+        run: |
+          mkdir -p dist
+          (cd skills && zip -r -X "../dist/$SKILL-$TAG.zip" "$SKILL" -x '*.DS_Store')
+          unzip -l "dist/$SKILL-$TAG.zip"
+
+      - name: Publish release
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "dist/$SKILL-$TAG.zip" --clobber
+          else
+            gh release create "$TAG" "dist/$SKILL-$TAG.zip" \
+              --title "$SKILL $TAG" --generate-notes --target "$GITHUB_SHA"
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.SKILL }}-${{ env.TAG }}
+          path: dist/*.zip
