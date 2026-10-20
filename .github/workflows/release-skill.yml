@@ -26,7 +26,11 @@ jobs:
       - name: Validate skill
         run: |
           test -f "skills/$SKILL/SKILL.md"
-          grep -q "^name: $SKILL$" "skills/$SKILL/SKILL.md"
+          ruby -ryaml -e '
+            fm = YAML.safe_load(File.read(ARGV[0])[/\A---\n(.*?)\n---/m, 1])
+            abort "name must be #{ARGV[1]}" unless fm["name"] == ARGV[1]
+            abort "description missing" if fm["description"].to_s.empty?
+          ' "skills/$SKILL/SKILL.md" "$SKILL"
 
       - name: Build zip
         run: |

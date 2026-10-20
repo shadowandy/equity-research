@@ -1,6 +1,6 @@
 ---
 name: equity-research
-description: Institutional-grade equity research report on a listed stock: rating, price target, fundamentals, catalysts, valuation scenarios, risks, technicals, insider activity. Use when the user names a ticker or company and asks to analyse, evaluate, rate, or value the stock, or asks for a buy/sell/hold call or price target.
+description: "Institutional-grade equity research report on a listed stock: rating, price target, fundamentals, catalysts, valuation scenarios, risks, technicals, insider activity. Use when the user names a ticker or company and asks to analyse, evaluate, rate, or value the stock, or asks for a buy/sell/hold call or price target."
 ---
 
 # Equity Research
