@@ -39,12 +39,13 @@ The skill handles stocks that trade on more than one counter (SGX SGD/USD, HKEX 
 
 The skill needs web search and web fetch tools.
 
-**Claude Code**: copy the skill folder into your personal or project skills directory:
+**Coding agents (Claude Code and others)**: install with the [`skills`](https://github.com/vercel-labs/skills) CLI (Node.js 22.20+):
 
 ```sh
-git clone https://github.com/shadowandy/stock-evaluation.git
-cp -r stock-evaluation/skills/equity-research ~/.claude/skills/
+npx skills add shadowandy/stock-evaluation --skill equity-research
 ```
+
+The skill installs into the current project; add `-g` to make it available in every project.
 
 **Claude apps**: download `equity-research-<version>.zip` from the [latest release](https://github.com/shadowandy/stock-evaluation/releases/latest) and upload it in the Skills settings.
 
