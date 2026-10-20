@@ -1,49 +1,81 @@
 name: Release equity-research skill
 
+# Every change to the skill on main cuts a new patch release (v1.0.0, v1.0.1, ...).
+# Push a v* tag, or run the workflow by hand with a tag, to choose the version yourself.
 on:
   push:
+    branches: [main]
+    paths:
+      - "skills/equity-research/**"
     tags:
       - "v*"
   workflow_dispatch:
     inputs:
       tag:
-        description: "Release tag to create or update (e.g. v1.0.0)"
-        required: true
+        description: "Release tag (e.g. v2.0.0). Leave empty to bump the patch version."
+        required: false
 
 permissions:
   contents: write
+
+concurrency:
+  group: release-skill
+  cancel-in-progress: false
 
 jobs:
   package:
     runs-on: ubuntu-latest
     env:
       SKILL: equity-research
-      TAG: ${{ github.event.inputs.tag || github.ref_name }}
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Validate skill
         run: |
-          test -f "skills/$SKILL/SKILL.md"
           ruby -ryaml -e '
             fm = YAML.safe_load(File.read(ARGV[0])[/\A---\n(.*?)\n---/m, 1])
             abort "name must be #{ARGV[1]}" unless fm["name"] == ARGV[1]
             abort "description missing" if fm["description"].to_s.empty?
           ' "skills/$SKILL/SKILL.md" "$SKILL"
 
-      - name: Build zip
+      - name: Choose version
+        env:
+          INPUT_TAG: ${{ github.event.inputs.tag }}
+        run: |
+          if [ -n "$INPUT_TAG" ]; then
+            TAG="$INPUT_TAG"
+          elif [ "$GITHUB_REF_TYPE" = tag ]; then
+            TAG="$GITHUB_REF_NAME"
+          else
+            LATEST=$(git tag -l 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | head -1)
+            if [ -z "$LATEST" ]; then
+              TAG=v1.0.0
+            else
+              IFS=. read -r MAJOR MINOR PATCH <<< "${LATEST#v}"
+              TAG="v$MAJOR.$MINOR.$((PATCH + 1))"
+            fi
+          fi
+          echo "TAG=$TAG" >> "$GITHUB_ENV"
+          echo "Releasing $TAG"
+
+      # claude.ai wants the skill folder at the zip root; gemini.google.com wants SKILL.md at the zip root.
+      - name: Build zips
         run: |
           mkdir -p dist
-          (cd skills && zip -r -X "../dist/$SKILL-$TAG.zip" "$SKILL" -x '*.DS_Store')
-          unzip -l "dist/$SKILL-$TAG.zip"
+          (cd skills && zip -r -X "../dist/$SKILL.zip" "$SKILL" -x '*.DS_Store')
+          (cd "skills/$SKILL" && zip -r -X "../../dist/$SKILL-gemini.zip" . -x '*.DS_Store')
+          unzip -l "dist/$SKILL.zip"
+          unzip -l "dist/$SKILL-gemini.zip"
 
       - name: Publish release
         run: |
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" "dist/$SKILL-$TAG.zip" --clobber
+            gh release upload "$TAG" dist/*.zip --clobber
           else
-            gh release create "$TAG" "dist/$SKILL-$TAG.zip" \
+            gh release create "$TAG" dist/*.zip \
               --title "$SKILL $TAG" --generate-notes --target "$GITHUB_SHA"
           fi
 

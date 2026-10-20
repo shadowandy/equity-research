@@ -1,4 +1,4 @@
-# stock-evaluation
+# equity-research
 
 An agent skill, `equity-research`, that writes institutional-style equity research reports on listed stocks. Name a ticker and ask for an analysis, rating, price target or buy/sell/hold call. The skill researches the stock live on the web and writes a structured report in which every figure is cited.
 
@@ -42,12 +42,16 @@ The skill needs web search and web fetch tools.
 **Coding agents (Claude Code and others)**: install with the [`skills`](https://github.com/vercel-labs/skills) CLI (Node.js 22.20+):
 
 ```sh
-npx skills add shadowandy/stock-evaluation --skill equity-research
+npx skills add shadowandy/equity-research
 ```
 
 The skill installs into the current project; add `-g` to make it available in every project.
 
-**Claude apps**: download `equity-research-<version>.zip` from the [latest release](https://github.com/shadowandy/stock-evaluation/releases/latest) and upload it in the Skills settings.
+**claude.ai**: download [`equity-research.zip`](https://github.com/shadowandy/equity-research/releases/latest/download/equity-research.zip) and upload it in the Skills settings.
+
+**gemini.google.com**: download [`equity-research-gemini.zip`](https://github.com/shadowandy/equity-research/releases/latest/download/equity-research-gemini.zip) and upload it when creating a skill (web app or Mac app).
+
+Both links always point at the [latest release](https://github.com/shadowandy/equity-research/releases/latest).
 
 ## Usage
 
@@ -63,14 +67,19 @@ When a request names several tickers, the skill writes one report per ticker. Ea
 
 ## Releasing
 
-The [release workflow](.github/workflows/release-skill.yml) runs when a `v*` tag is pushed:
+Every push to `main` that changes `skills/equity-research/` publishes a new release automatically. The [release workflow](.github/workflows/release-skill.yml) bumps the patch version (`v1.0.0` → `v1.0.1`), checks that the `SKILL.md` header is valid YAML, and attaches two zips:
+
+| Asset | Layout | For |
+| --- | --- | --- |
+| `equity-research.zip` | `equity-research/SKILL.md` | claude.ai |
+| `equity-research-gemini.zip` | `SKILL.md` at the top | gemini.google.com |
+
+To pick a different version (e.g. a minor or major bump), push the tag yourself or run the workflow from the Actions tab and enter a tag:
 
 ```sh
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.1.0
+git push origin v1.1.0
 ```
-
-It checks that the `SKILL.md` header is valid YAML, zips `skills/equity-research/` (with the `equity-research/` folder at the top of the archive) and attaches the zip to a GitHub release for that tag. It can also be run by hand from the Actions tab.
 
 ## Repository layout
 
