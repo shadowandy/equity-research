@@ -29,7 +29,7 @@ jobs:
       SKILL: equity-research
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -79,7 +79,7 @@ jobs:
               --title "$SKILL $TAG" --generate-notes --target "$GITHUB_SHA"
           fi
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ${{ env.SKILL }}-${{ env.TAG }}
           path: dist/*.zip
