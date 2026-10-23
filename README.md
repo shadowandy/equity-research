@@ -47,11 +47,7 @@ npx skills add shadowandy/equity-research
 
 The skill installs into the current project; add `-g` to make it available in every project.
 
-**claude.ai**: download [`equity-research.zip`](https://github.com/shadowandy/equity-research/releases/latest/download/equity-research.zip) and upload it in the Skills settings.
-
-**gemini.google.com**: download [`equity-research-gemini.zip`](https://github.com/shadowandy/equity-research/releases/latest/download/equity-research-gemini.zip) and upload it when creating a skill (web app or Mac app).
-
-Both links always point at the [latest release](https://github.com/shadowandy/equity-research/releases/latest).
+**claude.ai and gemini.google.com**: download [`equity-research.zip`](https://github.com/shadowandy/equity-research/releases/latest/download/equity-research.zip) and upload it in the Skills settings (claude.ai) or when creating a skill (Gemini web app or Mac app). The link always points at the [latest release](https://github.com/shadowandy/equity-research/releases/latest).
 
 ## Usage
 
@@ -69,12 +65,7 @@ When a request names several tickers, the skill writes one report per ticker. Ea
 
 ## Releasing
 
-Every push to `main` that changes `skills/equity-research/` publishes a new release automatically. The [release workflow](.github/workflows/release-skill.yml) bumps the patch version (`v1.0.0` → `v1.0.1`), checks that the `SKILL.md` header is valid YAML, and attaches two zips:
-
-| Asset | Layout | For |
-| --- | --- | --- |
-| `equity-research.zip` | `equity-research/SKILL.md` | claude.ai |
-| `equity-research-gemini.zip` | `SKILL.md` at the top | gemini.google.com |
+Every push to `main` that changes `skills/equity-research/` publishes a new release automatically. The [release workflow](.github/workflows/release-skill.yml) bumps the patch version (`v1.0.0` → `v1.0.1`), checks that the `SKILL.md` header is valid YAML, and attaches `equity-research.zip` (the `equity-research/` skill folder at the zip root), which both claude.ai and gemini.google.com accept.
 
 To pick a different version (e.g. a minor or major bump), push the tag yourself or run the workflow from the Actions tab and enter a tag:
 

@@ -61,14 +61,12 @@ jobs:
           echo "TAG=$TAG" >> "$GITHUB_ENV"
           echo "Releasing $TAG"
 
-      # claude.ai wants the skill folder at the zip root; gemini.google.com wants SKILL.md at the zip root.
-      - name: Build zips
+      # The skill folder sits at the zip root; claude.ai and gemini.google.com both accept this layout.
+      - name: Build zip
         run: |
           mkdir -p dist
           (cd skills && zip -r -X "../dist/$SKILL.zip" "$SKILL" -x '*.DS_Store')
-          (cd "skills/$SKILL" && zip -r -X "../../dist/$SKILL-gemini.zip" . -x '*.DS_Store')
           unzip -l "dist/$SKILL.zip"
-          unzip -l "dist/$SKILL-gemini.zip"
 
       - name: Publish release
         run: |
