@@ -7,7 +7,9 @@ description: "Equity research report on a listed stock. Use when the user names 
 
 Produce one report per stock, built from live web research (searches and page fetches) and written in the exact structure under [Output format](#output-format). Every figure in the report is **sourced**: it came from a page fetched or searched this run, carries its timeframe (YoY, QoQ, TTM, FY, as-of date), and links to an entry in the report's Sources list. From step 1 on, keep a **fact sheet** in your working notes: one line per figure with value, timeframe, source URL, and source date. A field with no sourced figure says so plainly, naming what was checked ("Not available: no listed options on SGX; checked SGX derivatives, broker sites"). A **proxy** may fill the gap only when labelled as one ("Proxy: US ADR options show...").
 
-Several tickers in one request: one report per ticker. Where subagents are available, dispatch one per ticker with this skill, so each researches in a clean context; otherwise run the full sequence for each in turn.
+**Fan out** independent work: issue independent searches and fetches together in one turn, and where you can dispatch subagents, send independent tasks to them all at once rather than one after another. Only the steps themselves are sequential.
+
+Several tickers in one request: one report per ticker. Where you can dispatch subagents, dispatch one per ticker with this skill in a single turn, so each researches in a clean context; otherwise run the full sequence for each in turn.
 
 The `reports/` folder (prior-report lookup in step 1, save in step 5) applies only where a persistent working directory exists; elsewhere skip the lookup and present the report in chat only.
 
@@ -15,7 +17,7 @@ The `reports/` folder (prior-report lookup in step 1, save in step 5) applies on
 
 ### 1. Resolve the counter
 
-Pin down before any analysis:
+Pin down before any analysis, fanning out the price lookup, the listing lookups, and the `reports/` check:
 
 - Ticker code as the exchange lists it (e.g. `D05`, `0700`, `SHEL`, `AAPL`)
 - Company name
@@ -32,11 +34,16 @@ Done when all six facts are on the fact sheet, the market notes are read, and an
 
 ### 2. Research
 
-Run all three search passes, using the sources the market notes name, adding each figure to the fact sheet. Prefer the latest reported period for financials and data no older than 30 days for price, technicals, options, and consensus targets; note the date wherever a figure is older.
+Run all three search passes below concurrently, using the sources the market notes name. Prefer the latest reported period for financials and data no older than 30 days for price, technicals, options, and consensus targets; note the date wherever a figure is older.
 
 1. **Financial performance**: latest results (revenue, growth YoY and QoQ or HoH, gross/operating/net margins, EPS vs consensus), segment or business KPIs, management guidance, analyst consensus rating and price targets with firm names and dates.
 2. **Market positioning**: 3-5 peers chosen by business, wherever listed, including at least one from the same exchange when one exists. P/E, P/S, EV/EBITDA, or sector-appropriate multiples (P/B and ROE for banks, P/NAV and DPU yield for REITs). Market share, sector ETF or index performance, competitive developments.
 3. **Advanced intelligence**: 52-week range, support/resistance, moving averages, RSI, volume trend; options put/call ratio, implied volatility, unusual activity; insider buys/sells with names and amounts; buyback programmes; institutional ownership changes; short interest; regulatory or legal matters; ESG issues material to institutional holders.
+
+- **With subagents**: dispatch one per pass in a single turn. Brief each with the six counter facts, the market notes file path, its pass's list, the freshness rule above, and the fact-sheet line format; ask it to fan out its own searches and return fact-sheet lines plus "not available" entries naming what was checked.
+- **Without**: run the passes yourself, fanning out each pass's searches and fetches.
+
+Merge every return into the fact sheet. Where passes report one figure with different values, keep the more recent, more primary source. Then fan out follow-up searches for any remaining gaps.
 
 Done when every placeholder in the output format maps to a fact-sheet line, a labelled proxy, or a recorded "not available" with what was checked.
 

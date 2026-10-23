@@ -61,6 +61,8 @@ Give me a buy/sell/hold call on 0700 with a price target
 Evaluate SHEL and AAPL
 ```
 
+Research runs in parallel where the agent allows it: one subagent per ticker, and within each report the financial, positioning and technical/insider search passes run at the same time. Agents without subagents still batch independent searches together.
+
 When a request names several tickers, the skill writes one report per ticker. Each report is saved to `reports/<TICKER>-<YYYY-MM-DD>.md` in the current directory and also shown in chat. If an earlier report on the same ticker exists, the new report says what changed in the rating, the target and the reasoning behind them.
 
 `reports/` is git-ignored in this repo.
