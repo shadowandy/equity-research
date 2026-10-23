@@ -1,6 +1,6 @@
 # LSE (London Stock Exchange)
 
-- **Currency**: shares are quoted in pence (GBX). Prices and targets in pence (1,245p); financials in the reporting currency, which for many large caps is USD (Shell, HSBC, BP, Rio Tinto, AstraZeneca). Header reads "GBX Counter".
+- **Currency**: shares are quoted in pence (GBX). Prices and targets in pence (1,245p); financials in the reporting currency, which for many large caps is USD (Shell, HSBC, BP, Rio Tinto, AstraZeneca).
 - **Segments**: Main Market vs AIM. AIM companies follow lighter disclosure rules; say which segment applies.
 - **Reporting cadence**: half-year and full-year results; many large caps add quarterly trading updates.
 - **Filings and announcements**: RNS (londonstockexchange.com news), company investor relations, Companies House for filings history.
