@@ -63,7 +63,9 @@ Done when the weighted value, the headline target, and the upside % agree arithm
 Fill the [Output format](#output-format) exactly: same headings, same order, same bold labels, nothing before or after it.
 
 - **Currency**: write every amount with its ISO currency code (SGD 0.82, HKD 385.20, USD 212.40; LSE prices in pence, e.g. 1,245p), since web chat renders text between two dollar signs as LaTeX math. Share prices and targets in the counter currency, filling the template's `[CCY]`; financials in the reporting currency (GBP 1.2bn, USD 4.5bn, RMB 30bn).
-- **Citations**: numbered markers `[n]` pointing into `## SOURCES`; one marker covers a sentence whose figures share a source. Each source line: title, publisher, date, URL.
+- **Citations**: numbered markers `[n]` pointing into `## SOURCES`; one marker covers a sentence whose figures share a source, and a table row carries its markers in the `Src` column (`[3][7]` for several). Each source line: title, publisher, date, URL.
+- **Peer table**: the subject in bold as the first row, then the 3-5 peers, then a bold `Peer median` row taken over the available figures. Columns follow the sector: the template's default; banks `P/E | P/B | ROE | Div yield`; REITs `P/NAV | DPU yield | Gearing`. P/E and EV/EBITDA each use one basis down the column, forward if every row has it, else trailing, named in the header (`P/E (fwd)`). An unsourced cell reads `n/a`, with the footnote naming what was checked.
+- **Catalyst table**: one row per catalyst, grouped Near-term (0-6m), Medium-term (6-24m), Event-driven, dated rows by date then undated. Every horizon has at least one row; an empty one reads "None identified: checked [sources]". Impact opens with ▲ Positive, ▼ Negative, or ◆ Binary.
 - **Prior report**: if step 1 found one, end the Executive Summary with the `Changes since` line: previous rating, target, and what moved the thesis. Omit the line otherwise.
 
 ### 5. Check, save, and present
@@ -72,7 +74,8 @@ Confirm each, fixing the draft until all hold:
 
 - Every figure is **sourced**, its `[n]` marker resolving to a Sources entry.
 - No `[placeholder]` text remains; gaps read as "not available" statements or labelled proxies.
-- Probability weights sum to 100% and reproduce the headline target.
+- Probability weights sum to 100% and reproduce the headline target; the valuation table's weighted row matches it.
+- The peer median row and the takeaway's premium/discount follow from the table's own figures.
 - Upside % matches the target and the quoted current price.
 - Price currency matches the header's counter throughout, every amount written with its currency code; any mixed-currency valuation names its FX rate.
 
@@ -92,17 +95,39 @@ Then save to `reports/<TICKER>-<YYYY-MM-DD>.md` in the current directory (create
 ## FUNDAMENTAL ANALYSIS
 **Recent Financial Metrics**: [Specific revenue growth %, margins, key business KPIs with exact numbers and timeframes]
 
-**Peer Comparison**: [Valuation multiples vs competitors with specific P/E, P/S ratios and company names]
+**Peer Comparison**:
+
+| Company | Ticker (Exchange) | Mkt cap (USD) | P/E ([fwd/ttm]) | EV/EBITDA ([fwd/ttm]) | P/S | Src |
+| --- | --- | --- | --- | --- | --- | --- |
+| **[Subject name]** | **[Ticker] ([Exch])** | **[X]bn** | **[X]x** | **[X]x** | **[X]x** | [n] |
+| [Peer name] | [Ticker] ([Exch]) | [X]bn | [X]x | [X]x | [X]x | [n] |
+| **Peer median** | | **[X]bn** | **[X]x** | **[X]x** | **[X]x** | |
+
+*Market caps converted at FX rates as of [DD MMM YYYY]. [Each n/a: what was checked].*
+
+[Premium/discount to the peer median on the key multiple, and why].
 
 **Forward Outlook**: [Management guidance, analyst consensus, growth projections with specific numbers]
 
 ## CATALYST ANALYSIS
-**Near-term (0-6 months)**: [Specific upcoming events with dates - earnings, product launches, regulatory decisions]
-**Medium-term (6-24 months)**: [Strategic initiatives, market expansion, competitive positioning changes]
-**Event-driven**: [M&A potential, index inclusion, spin-offs, special dividends]
+
+| Horizon | Catalyst | Timing | Expected impact | Src |
+| --- | --- | --- | --- | --- |
+| Near-term (0-6m) | [Earnings, product launch, regulatory decision] | [DD MMM YYYY or period] | [▲ Positive / ▼ Negative / ◆ Binary]: [few words] | [n] |
+| Medium-term (6-24m) | [Strategic initiative, market expansion, competitive shift] | [Period] | [Impact] | [n] |
+| Event-driven | [M&A, index inclusion, spin-off, special dividend] | [Period or undated] | [Impact] | [n] |
 
 ## VALUATION & PRICE TARGETS
-Current consensus: [CCY] [X] (range [CCY] [low]-[high]). Bull case [CCY] [X] assumes [specific scenario]. Base case [CCY] [X] reflects [scenario]. Bear case [CCY] [X] on [risk scenario]. Probability weighting: [X]%/[Y]%/[Z]%.
+Current consensus: [CCY] [X] (range [CCY] [low]-[high]) [n].
+
+| Scenario | Price ([CCY]) | Key assumption | Probability | Src |
+| --- | --- | --- | --- | --- |
+| Bull | [X] | [Specific scenario: multiple on forward figure, DCF driver, NAV discount] | [X]% | [n] |
+| Base | [X] | [Scenario] | [Y]% | [n] |
+| Bear | [X] | [Risk scenario] | [Z]% | [n] |
+| **Probability-weighted target** | **[X]** | | **100%** | |
+
+*[FX rate and date, where the valuation mixes currencies].*
 
 ## RISK ASSESSMENT
 **Company risks**: [Specific business risks - competitive threats, regulatory issues, operational challenges]
