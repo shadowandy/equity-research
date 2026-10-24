@@ -17,6 +17,8 @@ Each report follows a fixed structure:
 - **Market positioning and insider signals**: performance against the sector, insider dealings, buybacks, institutional ownership
 - **Sources**: a numbered list; every `[n]` marker in the report points into it
 
+Where the agent can run code, technical indicators (moving averages, RSI(14), MACD(12,26,9), 52-week range, volume trend) are computed from a year of daily prices by a bundled script, [`scripts/indicators.py`](skills/equity-research/scripts/indicators.py), which uses only Python's standard library. Elsewhere they are read from a vendor page, with its settings named.
+
 Every figure carries its timeframe and a citation. When a figure can't be found, the report says what was checked instead of estimating it. Proxies (e.g. US ADR options data for a Hong Kong listing) are used only when labelled as proxies.
 
 The rating follows from the target: BUY above +15% upside, SELL below −10%, HOLD in between. Any deviation must be explained in the executive summary.
@@ -79,7 +81,7 @@ git push origin v1.1.0
 ## Repository layout
 
 ```
-skills/equity-research/   the skill (SKILL.md, per-market notes, fund notes)
+skills/equity-research/   the skill (SKILL.md, per-market notes, fund notes, indicator script)
 .github/workflows/        release packaging
 docs/agents/              conventions for agents working on this repo
 AGENTS.md                 agent instructions
