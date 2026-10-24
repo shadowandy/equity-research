@@ -92,7 +92,7 @@ Then save to `reports/<TICKER>-<YYYY-MM-DD>.md` in the current directory (create
 ````markdown
 # **[TICKER CODE] - ENHANCED EQUITY RESEARCH**
 ### [TICKER NAME] | [Exchange operator acronym, e.g. NYSE, SGX]-Listed | [Counter currency, e.g. SGD, HKD, GBX] Counter
-> *Analysis Date: [Current date in DD MMM YYYY] | Analyst: LLM-Generated Research | For Educational Purposes Only*
+> *Analysis Date: [Current date in DD MMM YYYY] | Analyst: LLM-Generated Research | For informational and educational purposes only. This is not financial advice. Please do your own research and speak with a certified advisor before investing.*
 
 ## EXECUTIVE SUMMARY
 **[BUY/SELL/HOLD] with [CCY] [X] price target ([X]% upside/downside) over [timeframe].**
