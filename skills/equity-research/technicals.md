@@ -1,3 +1,8 @@
+# Technical indicators
+
+Where you can run code, write the script below to `indicators.py` in a scratch location and run `python3 indicators.py <file>`, where `<file>` holds about a year of daily prices: Yahoo's chart JSON (`query1.finance.yahoo.com/v8/finance/chart/<SYMBOL>?range=1y&interval=1d`) or a CSV with a header row and date, close and volume columns (high and low optional). It needs only Python's standard library and prints one `field | value | as of <date>` line per figure: 20/50/100/200-day SMAs, RSI(14, Wilder), MACD(12,26,9), 52-week and 20-day ranges, and the volume trend.
+
+```python
 #!/usr/bin/env python3
 """Technical indicators from daily price history, standard library only.
 
@@ -140,3 +145,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+```

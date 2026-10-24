@@ -40,6 +40,12 @@ jobs:
             abort "name must be #{ARGV[1]}" unless fm["name"] == ARGV[1]
             abort "description missing" if fm["description"].to_s.empty?
           ' "skills/$SKILL/SKILL.md" "$SKILL"
+          # gemini.google.com rejects skills that contain script files; code lives in .md code blocks.
+          if find "skills/$SKILL" -type f ! -name '*.md' | grep .; then
+            echo "only .md files may ship in the skill" >&2; exit 1
+          fi
+          awk '/^```python$/{f=1;next} /^```$/{f=0} f' "skills/$SKILL/technicals.md" > /tmp/indicators.py
+          python3 -m py_compile /tmp/indicators.py
 
       - name: Choose version
         env:

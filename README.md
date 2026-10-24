@@ -17,7 +17,7 @@ Each report follows a fixed structure:
 - **Market positioning and insider signals**: performance against the sector, insider dealings, buybacks, institutional ownership
 - **Sources**: a numbered list; every `[n]` marker in the report points into it
 
-Where the agent can run code, technical indicators (moving averages, RSI(14), MACD(12,26,9), 52-week range, volume trend) are computed from a year of daily prices by a bundled script, [`scripts/indicators.py`](skills/equity-research/scripts/indicators.py), which uses only Python's standard library. Elsewhere they are read from a vendor page, with its settings named.
+Where the agent can run code, technical indicators (moving averages, RSI(14), MACD(12,26,9), 52-week range, volume trend) are computed from a year of daily prices by a standard-library Python script kept as a code block in [`technicals.md`](skills/equity-research/technicals.md); the agent writes it out and runs it. Elsewhere they are read from a vendor page, with its settings named. The skill folder holds no script files, since gemini.google.com rejects skills that contain them.
 
 Every figure carries its timeframe and a citation. When a figure can't be found, the report says what was checked instead of estimating it. Proxies (e.g. US ADR options data for a Hong Kong listing) are used only when labelled as proxies.
 
@@ -81,7 +81,7 @@ git push origin v1.1.0
 ## Repository layout
 
 ```
-skills/equity-research/   the skill (SKILL.md, per-market notes, fund notes, indicator script)
+skills/equity-research/   the skill (SKILL.md, per-market notes, fund notes, technicals script)
 .github/workflows/        release packaging
 docs/agents/              conventions for agents working on this repo
 AGENTS.md                 agent instructions
