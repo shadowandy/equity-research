@@ -9,7 +9,7 @@ An agent skill, `equity-research`, that writes institutional-style equity resear
 Each report follows a fixed structure:
 
 - **Executive summary**: BUY / HOLD / SELL rating, a 12-month price target and the upside or downside %
-- **Fundamental analysis**: recent financials, a peer valuation table (sector-specific multiples, with a peer median row), guidance and consensus
+- **Fundamental analysis**: a key-figures table of recent financials, a peer valuation table (sector-specific multiples, with a peer median row), guidance and consensus
 - **Catalysts**: a plain-text timeline of dated catalysts, then a table of near-term, medium-term and event-driven catalysts with timing and expected impact (▲ positive, ▼ negative, ◆ binary)
 - **Valuation**: a table of bull, base and bear targets, each tied to a stated assumption, with probability weights that reproduce the headline target
 - **Risk assessment**: company and macro risks, position sizing, ESG where material
@@ -32,6 +32,8 @@ Each exchange has its own notes covering where filings are announced, how often 
 | HKEX | [`markets/hkex.md`](skills/equity-research/markets/hkex.md) |
 | NYSE / NASDAQ | [`markets/us.md`](skills/equity-research/markets/us.md) |
 | Anything else | [`markets/other.md`](skills/equity-research/markets/other.md): a checklist for working out these facts for an unfamiliar exchange |
+
+ETFs, unit trusts and other listed funds get their own [notes](skills/equity-research/funds.md): fund-level metrics (NAV, TER, tracking, distributions), fund peers, and fund flows in place of insider dealings.
 
 The skill handles stocks that trade on more than one counter (SGX SGD/USD, HKEX HKD/RMB, ADR vs home listing) and companies that report in a different currency from the one their shares trade in.
 
@@ -77,7 +79,7 @@ git push origin v1.1.0
 ## Repository layout
 
 ```
-skills/equity-research/   the skill (SKILL.md and per-market notes)
+skills/equity-research/   the skill (SKILL.md, per-market notes, fund notes)
 .github/workflows/        release packaging
 docs/agents/              conventions for agents working on this repo
 AGENTS.md                 agent instructions

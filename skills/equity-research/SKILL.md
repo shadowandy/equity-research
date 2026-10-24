@@ -26,11 +26,11 @@ Pin down before any analysis, fanning out the price lookup, the listing lookups,
 - Reporting currency of the company's financial statements, which may differ (RMB for many HKEX names, USD for many LSE and some SGX names)
 - Current price, with date and time quoted
 
-If the ticker is ambiguous, ask the user which listing. Then read the market notes for the exchange: [`markets/sgx.md`](markets/sgx.md), [`markets/lse.md`](markets/lse.md), [`markets/hkex.md`](markets/hkex.md), [`markets/us.md`](markets/us.md), or [`markets/other.md`](markets/other.md) for any other exchange.
+If the ticker is ambiguous, ask the user which listing. Then read the market notes for the exchange: [`markets/sgx.md`](markets/sgx.md), [`markets/lse.md`](markets/lse.md), [`markets/hkex.md`](markets/hkex.md), [`markets/us.md`](markets/us.md), or [`markets/other.md`](markets/other.md) for any other exchange. If the counter is an ETF, unit trust, or other listed fund, also read [`funds.md`](funds.md).
 
 Check `reports/` in the current directory for earlier reports on this ticker; if one exists, read the most recent.
 
-Done when all six facts are on the fact sheet, the market notes are read, and any prior report is read.
+Done when all six facts are on the fact sheet, the market notes (and `funds.md` for a fund) are read, and any prior report is read.
 
 ### 2. Research
 
@@ -63,9 +63,11 @@ Done when the weighted value, the headline target, and the upside % agree arithm
 Fill the [Output format](#output-format) exactly: same headings, same order, same bold labels, nothing before or after it.
 
 - **Currency**: write every amount with its ISO currency code (SGD 0.82, HKD 385.20, USD 212.40; LSE prices in pence, e.g. 1,245p), since web chat renders text between two dollar signs as LaTeX math. Share prices and targets in the counter currency, filling the template's `[CCY]`; financials in the reporting currency (GBP 1.2bn, USD 4.5bn, RMB 30bn).
-- **Citations**: numbered markers `[n]` pointing into `## SOURCES`; one marker covers a sentence whose figures share a source, and a table row carries its markers in the `Src` column (`[3][7]` for several). Each source line: title, publisher, date, URL.
-- **Peer table**: the subject in bold as the first row, then the 3-5 peers, then a bold `Peer median` row taken over the available figures. Columns follow the sector: the template's default; banks `P/E | P/B | ROE | Div yield`; REITs `P/NAV | DPU yield | Gearing`. P/E and EV/EBITDA each use one basis down the column, forward if every row has it, else trailing, named in the header (`P/E (fwd)`). An unsourced cell reads `n/a`, with the footnote naming what was checked.
-- **Catalyst table**: one row per catalyst, grouped Near-term (0-6m), Medium-term (6-24m), Event-driven, dated rows by date then undated. Every horizon has at least one row; an empty one reads "None identified: checked [sources]". Impact opens with ▲ Positive, ▼ Negative, or ◆ Binary.
+- **Lean prose**: figures live in tables; prose carries the reasoning. The Executive Summary thesis is at most 2 sentences and 4 figures, with the detail left to the sections below.
+- **Citations**: numbered markers `[n]` pointing into `## SOURCES`; one marker covers a sentence whose figures share a source, and a table row carries its markers in the `Src` column (`[3][7]` for several). A sentence restating a table's figures names the table ("the peer table") and carries no markers, since the table's `Src` column already does. A sentence carries at most 3 markers; past that, split it or keep the primary sources. Each source line: title, publisher, date, URL.
+- **Key-figures table**: Recent Financial Metrics is a `Metric | Value | Period | Src` table of up to 8 rows, a change written inside its Value cell (`USD 4.5bn (+12% YoY)`), then one sentence on what the figures say.
+- **Peer table**: the subject in bold as the first row, then the 3-5 peers, then a bold `Peer median` row taken over the available figures. The first column holds a short name of 20 characters or fewer with the ticker (`Lion-Phillip S-REIT (CLR)`); the footnote names a peer's exchange where it differs from the subject's. At most 5 metric columns plus `Src`, following the sector: the template's default; banks `P/E | P/B | ROE | Div yield`; REITs `P/NAV | DPU yield | Gearing`. P/E and EV/EBITDA each use one basis down the column, forward if every row has it, else trailing, named in the header (`P/E (fwd)`). An unsourced cell reads `n/a`, with the footnote naming what was checked.
+- **Catalyst table**: a bold group row per horizon, Near-term (0-6m), Medium-term (6-24m), Event-driven, then one row per catalyst, dated rows by date then undated. Every horizon has at least one row; an empty one reads "None identified: checked [sources]". The Catalyst cell adds what the timeline label lacks (context, the holding's weight) in 15 words or fewer. Impact opens with ▲ Positive, ▼ Negative, or ◆ Binary.
 - **Catalyst timeline**: a plain-text block above the catalyst table, one line per row that has a date or period, sorted by start: the date padded to a fixed width, the row's impact symbol, a label of 40 characters or fewer. Undated rows stay in the table only; with no dated rows, omit the block.
 - **Paragraphs**: each bold-labelled point opens its own paragraph, with a blank line before the next, as in the template.
 - **Prior report**: if step 1 found one, end the Executive Summary with the `Changes since` line: previous rating, target, and what moved the thesis. Omit the line otherwise.
@@ -94,22 +96,32 @@ Then save to `reports/<TICKER>-<YYYY-MM-DD>.md` in the current directory (create
 ## EXECUTIVE SUMMARY
 **[BUY/SELL/HOLD] with [CCY] [X] price target ([X]% upside/downside) over [timeframe].**
 
-[Key catalyst and investment thesis in 1-2 sentences]. [Risk-reward ratio description].
+[Key catalyst and investment thesis, with the risk-reward, in at most 2 sentences and 4 figures].
 
 **Changes since [DD MMM YYYY]**: [Previous rating and target → current; what changed the thesis].
 
 ## FUNDAMENTAL ANALYSIS
-**Recent Financial Metrics**: [Specific revenue growth %, margins, key business KPIs with exact numbers and timeframes]
+**Recent Financial Metrics**:
+
+| Metric | Value | Period | Src |
+| --- | --- | --- | --- |
+| Revenue | [CCY] [X]bn ([+/-X]% YoY) | [FY/1H/Q YYYY] | [n] |
+| Operating margin | [X]% ([+/-X]pp YoY) | [Period] | [n] |
+| Net margin | [X]% | [Period] | [n] |
+| EPS vs consensus | [CCY] [X] vs [CCY] [X] | [Period] | [n] |
+| [Key business KPI] | [Value] | [Period] | [n] |
+
+[One sentence on what the figures say].
 
 **Peer Comparison**:
 
-| Company | Ticker (Exchange) | Mkt cap (USD) | P/E ([fwd/ttm]) | EV/EBITDA ([fwd/ttm]) | P/S | Src |
-| --- | --- | --- | --- | --- | --- | --- |
-| **[Subject name]** | **[Ticker] ([Exch])** | **[X]bn** | **[X]x** | **[X]x** | **[X]x** | [n] |
-| [Peer name] | [Ticker] ([Exch]) | [X]bn | [X]x | [X]x | [X]x | [n] |
-| **Peer median** | | **[X]bn** | **[X]x** | **[X]x** | **[X]x** | |
+| Company | Mkt cap (USD) | P/E ([fwd/ttm]) | EV/EBITDA ([fwd/ttm]) | P/S | Src |
+| --- | --- | --- | --- | --- | --- |
+| **[Short name] ([Ticker])** | **[X]bn** | **[X]x** | **[X]x** | **[X]x** | [n] |
+| [Short name] ([Ticker]) | [X]bn | [X]x | [X]x | [X]x | [n] |
+| **Peer median** | **[X]bn** | **[X]x** | **[X]x** | **[X]x** | |
 
-*Market caps converted at FX rates as of [DD MMM YYYY]. [Each n/a: what was checked].*
+*Market caps converted at FX rates as of [DD MMM YYYY]. [Exchanges that differ from the subject's]. [Each n/a: what was checked].*
 
 [Premium/discount to the peer median on the key multiple, and why].
 
@@ -122,11 +134,14 @@ Then save to `reports/<TICKER>-<YYYY-MM-DD>.md` in the current directory (create
 [H2 YYYY]    [▲/▼/◆]  [Short catalyst label]
 ```
 
-| Horizon | Catalyst | Timing | Expected impact | Src |
-| --- | --- | --- | --- | --- |
-| Near-term (0-6m) | [Earnings, product launch, regulatory decision] | [DD MMM YYYY or period] | [▲ Positive / ▼ Negative / ◆ Binary]: [few words] | [n] |
-| Medium-term (6-24m) | [Strategic initiative, market expansion, competitive shift] | [Period] | [Impact] | [n] |
-| Event-driven | [M&A, index inclusion, spin-off, special dividend] | [Period or undated] | [Impact] | [n] |
+| Catalyst | Timing | Expected impact | Src |
+| --- | --- | --- | --- |
+| **Near-term (0-6m)** | | | |
+| [Earnings, product launch, regulatory decision] | [DD MMM YYYY or period] | [▲ Positive / ▼ Negative / ◆ Binary]: [few words] | [n] |
+| **Medium-term (6-24m)** | | | |
+| [Strategic initiative, market expansion, competitive shift] | [Period] | [Impact] | [n] |
+| **Event-driven** | | | |
+| [M&A, index inclusion, spin-off, special dividend] | [Period or undated] | [Impact] | [n] |
 
 ## VALUATION & PRICE TARGETS
 Current consensus: [CCY] [X] (range [CCY] [low]-[high]) [n].
