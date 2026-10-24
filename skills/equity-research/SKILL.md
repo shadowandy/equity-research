@@ -66,6 +66,8 @@ Fill the [Output format](#output-format) exactly: same headings, same order, sam
 - **Citations**: numbered markers `[n]` pointing into `## SOURCES`; one marker covers a sentence whose figures share a source, and a table row carries its markers in the `Src` column (`[3][7]` for several). Each source line: title, publisher, date, URL.
 - **Peer table**: the subject in bold as the first row, then the 3-5 peers, then a bold `Peer median` row taken over the available figures. Columns follow the sector: the template's default; banks `P/E | P/B | ROE | Div yield`; REITs `P/NAV | DPU yield | Gearing`. P/E and EV/EBITDA each use one basis down the column, forward if every row has it, else trailing, named in the header (`P/E (fwd)`). An unsourced cell reads `n/a`, with the footnote naming what was checked.
 - **Catalyst table**: one row per catalyst, grouped Near-term (0-6m), Medium-term (6-24m), Event-driven, dated rows by date then undated. Every horizon has at least one row; an empty one reads "None identified: checked [sources]". Impact opens with ▲ Positive, ▼ Negative, or ◆ Binary.
+- **Catalyst timeline**: a plain-text block above the catalyst table, one line per row that has a date or period, sorted by start: the date padded to a fixed width, the row's impact symbol, a label of 40 characters or fewer. Undated rows stay in the table only; with no dated rows, omit the block.
+- **Paragraphs**: each bold-labelled point opens its own paragraph, with a blank line before the next, as in the template.
 - **Prior report**: if step 1 found one, end the Executive Summary with the `Changes since` line: previous rating, target, and what moved the thesis. Omit the line otherwise.
 
 ### 5. Check, save, and present
@@ -75,6 +77,7 @@ Confirm each, fixing the draft until all hold:
 - Every figure is **sourced**, its `[n]` marker resolving to a Sources entry.
 - No `[placeholder]` text remains; gaps read as "not available" statements or labelled proxies.
 - Probability weights sum to 100% and reproduce the headline target; the valuation table's weighted row matches it.
+- The catalyst timeline lists exactly the table's dated rows, with the same dates and impact symbols.
 - The peer median row and the takeaway's premium/discount follow from the table's own figures.
 - Upside % matches the target and the quoted current price.
 - Price currency matches the header's counter throughout, every amount written with its currency code; any mixed-currency valuation names its FX rate.
@@ -83,13 +86,16 @@ Then save to `reports/<TICKER>-<YYYY-MM-DD>.md` in the current directory (create
 
 ## Output format
 
-```markdown
+````markdown
 # **[TICKER CODE] - ENHANCED EQUITY RESEARCH**
 ### [TICKER NAME] | [Exchange operator acronym, e.g. NYSE, SGX]-Listed | [Counter currency, e.g. SGD, HKD, GBX] Counter
 > *Analysis Date: [Current date in DD MMM YYYY] | Analyst: LLM-Generated Research | For Educational Purposes Only*
 
 ## EXECUTIVE SUMMARY
-**[BUY/SELL/HOLD]** with [CCY] [X] price target ([X]% upside/downside) over [timeframe]. [Key catalyst and investment thesis in 1-2 sentences]. [Risk-reward ratio description].
+**[BUY/SELL/HOLD] with [CCY] [X] price target ([X]% upside/downside) over [timeframe].**
+
+[Key catalyst and investment thesis in 1-2 sentences]. [Risk-reward ratio description].
+
 **Changes since [DD MMM YYYY]**: [Previous rating and target → current; what changed the thesis].
 
 ## FUNDAMENTAL ANALYSIS
@@ -111,6 +117,11 @@ Then save to `reports/<TICKER>-<YYYY-MM-DD>.md` in the current directory (create
 
 ## CATALYST ANALYSIS
 
+```
+[Mon YYYY]   [▲/▼/◆]  [Short catalyst label]
+[H2 YYYY]    [▲/▼/◆]  [Short catalyst label]
+```
+
 | Horizon | Catalyst | Timing | Expected impact | Src |
 | --- | --- | --- | --- | --- |
 | Near-term (0-6m) | [Earnings, product launch, regulatory decision] | [DD MMM YYYY or period] | [▲ Positive / ▼ Negative / ◆ Binary]: [few words] | [n] |
@@ -131,18 +142,32 @@ Current consensus: [CCY] [X] (range [CCY] [low]-[high]) [n].
 
 ## RISK ASSESSMENT
 **Company risks**: [Specific business risks - competitive threats, regulatory issues, operational challenges]
+
 **Macro risks**: [Interest rate sensitivity, economic cycle impact, sector rotation effects]
-**Position sizing**: [X]%-[Y]% allocation based on [volatility/beta/risk factors]. **ESG considerations**: [If material to institutional ownership].
+
+**Position sizing**: [X]%-[Y]% allocation based on [volatility/beta/risk factors].
+
+**ESG considerations**: [If material to institutional ownership].
 
 ## TECHNICAL CONTEXT & OPTIONS INTELLIGENCE
-[Current price vs 52-week range]. [Key support/resistance levels]. [Recent volume patterns]. **Options flow**: [Put/call ratios, unusual activity, implied volatility trends]. [Momentum indicators and trend analysis].
+**Price action**: [Current price vs 52-week range]. [Key support/resistance levels]. [Moving averages].
+
+**Momentum & volume**: [RSI and other momentum indicators, trend]. [Recent volume patterns].
+
+**Options flow**: [Put/call ratios, unusual activity, implied volatility trends].
 
 ## MARKET POSITIONING
-**Sector Performance**: [Stock performance vs sector ETF and broader market with specific %]. [Rotation trends affecting the position]. [Relative strength analysis].
+**Sector performance**: [Stock performance vs sector ETF and broader market with specific %].
+
+**Rotation & relative strength**: [Rotation trends affecting the position]. [Relative strength analysis].
 
 ## INSIDER SIGNALS
-[Recent insider buying/selling with specific values and executives]. [Share buyback programs]. [Institutional ownership changes]. [Pattern analysis of insider behavior].
+**Insider dealings**: [Recent insider buying/selling with specific values and executives]. [Pattern across them].
+
+**Buybacks**: [Share buyback programme and progress against its mandate].
+
+**Institutional ownership**: [Notable institutional ownership changes].
 
 ## SOURCES
 [n]. [Title] - [Publisher], [DD MMM YYYY]. [URL]
-```
+````

@@ -10,7 +10,7 @@ Each report follows a fixed structure:
 
 - **Executive summary**: BUY / HOLD / SELL rating, a 12-month price target and the upside or downside %
 - **Fundamental analysis**: recent financials, a peer valuation table (sector-specific multiples, with a peer median row), guidance and consensus
-- **Catalysts**: a table of near-term, medium-term and event-driven catalysts with timing and expected impact (▲ positive, ▼ negative, ◆ binary)
+- **Catalysts**: a plain-text timeline of dated catalysts, then a table of near-term, medium-term and event-driven catalysts with timing and expected impact (▲ positive, ▼ negative, ◆ binary)
 - **Valuation**: a table of bull, base and bear targets, each tied to a stated assumption, with probability weights that reproduce the headline target
 - **Risk assessment**: company and macro risks, position sizing, ESG where material
 - **Technicals and options**: 52-week range, support and resistance, momentum, put/call ratio, implied volatility
